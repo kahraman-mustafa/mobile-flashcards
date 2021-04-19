@@ -12,7 +12,7 @@ function Item({ item, onPress, backgroundColor, textColor }) {
   )
 }
 
-class FlatListExample extends Component {
+class DeckList extends Component {
 
   state = {
     selectedTitle: null,
@@ -34,6 +34,7 @@ class FlatListExample extends Component {
   onSelectDeck = (item) => {
     console.log("Item selected: ", item.title);
     this.setState(() => ({selectedTitle: item.title}))
+    this.props.navigation.navigate("IndividualDeck", {deckTitle: this.state.selectedTitle});
   }
 
   renderItem = ({ item }) => {
@@ -96,4 +97,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FlatListExample;
+export default DeckList;

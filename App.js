@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import FlatListExample from "./components/FlatListExample";
+import NavHome from "./components/NavHome"
 
 class App extends Component {
   render() {
     return (
-      <FlatListExample />
+      <NavHome />
     )
   }
 }
