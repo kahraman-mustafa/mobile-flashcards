@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import Constants from 'expo-constants';
-import { FontAwesome, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { View, Platform, StatusBar } from 'react-native';
 import DeckList from "./DeckList";
 import NewDeck from "./NewDeck";
@@ -82,7 +82,9 @@ const TabNav = () =>(
 
 // Config for StackNav
 const StackNavigatorConfig = {
-  headerMode: "screen"
+  screenOptions: {
+    headerMode: "screen"
+  }
 }
 
 const StackConfig = {

@@ -73,6 +73,10 @@ const dummyDeckData = {
   },
 };
 
+export function getDummyDeckData(){
+  return dummyDeckData;
+}
+
 export function getDailyQuizState(){
   return AsyncStorage.getItem(DAILY_QUIZ_STATE_STORAGE_KEY)
     .then((results) => {
@@ -94,6 +98,7 @@ export function getDeck(title){
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
       const data = JSON.parse(results);
+      console.log("In api.js, returning deck: ", data);
       return data[title];
     })
 }
@@ -101,13 +106,26 @@ export function getDeck(title){
 export function getDecks(){
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
-      // if there are no saved deck data yet, returns the dummy data
+      // if there are no saved deck data yet, returns empty array
       if(results){
         console.log("In api.js, returning results: ", JSON.parse(results));
         return JSON.parse(results);
       } else {
-        console.log("In api.js, returning dummy data: ", dummyDeckData);
-        return dummyDeckData;
+        console.log("In api.js, returning empty: ", []);
+        return [];
+      }
+    })
+}
+
+export function getDeckTitles(){
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+    .then((results) => {
+      // if there are no saved deck data yet, returns the dummy data
+      if(results){
+        const decks = JSON.parse(results);
+        return Object.keys(decks);
+      } else {
+        return [];
       }
     })
 }

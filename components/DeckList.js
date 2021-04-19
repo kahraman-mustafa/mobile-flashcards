@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity } from "react-native";
-import {getDecks} from "../data/api";
-import {gray, colorPrimary, colorActive, colorText, colorActiveText} from "../assets/colors"
+import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {getDecks, getDummyDeckData} from "../data/api";
+import {gray, colorPrimary, colorActive, colorText, colorActiveText, black, white, red, lightPurp} from "../assets/colors"
+import AppLoading from 'expo-app-loading';
+import TextButton from "./TextButton";
 
 function Item({ item, onPress, backgroundColor, textColor }) {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
-      <Text style={[styles.title, textColor]}>{item.title}</Text>
+    <TouchableOpacity onPress={onPress} style={[styles.item]}>
+      <Text style={[styles.title]}>{item.title}</Text>
       <Text style={styles.text}>{item.questions.length} cards</Text>
     </TouchableOpacity>
   )
@@ -15,7 +17,8 @@ function Item({ item, onPress, backgroundColor, textColor }) {
 class DeckList extends Component {
 
   state = {
-    selectedTitle: null,
+    ready: false,
+    selectedTitle: "",
     deckList: []
   }
 
@@ -29,12 +32,24 @@ class DeckList extends Component {
     
         this.setState(() => ({deckList}))
       })
+      .then(() => this.setState({
+        ready: true
+      }))
+  }
+
+  fetchDummyData = () => {
+    const dummyDeckData = getDummyDeckData();
+    const deckList = Object.keys(dummyDeckData).map((title) => ({
+      title: title,
+      questions: dummyDeckData[title].questions
+    }));
+    this.setState(() => ({deckList}))
   }
 
   onSelectDeck = (item) => {
     console.log("Item selected: ", item.title);
-    this.setState(() => ({selectedTitle: item.title}))
-    this.props.navigation.navigate("IndividualDeck", {deckTitle: this.state.selectedTitle});
+    this.setState(() => ({selectedTitle: item.title}));
+    this.props.navigation.navigate("IndividualDeck", {deckTitle: item.title});
   }
 
   renderItem = ({ item }) => {
@@ -42,8 +57,8 @@ class DeckList extends Component {
 
     //console.log("Deck: ", item);
 
-    const backgroundColor = item.title === selectedTitle ? colorActive : colorPrimary;
-    const color = item.title === selectedTitle ? colorActiveText : colorText;
+    const backgroundColor = item.title === selectedTitle ? white : white;
+    const color = item.title === selectedTitle ? black : black;
 
     return (
       <Item
@@ -56,9 +71,24 @@ class DeckList extends Component {
   };
 
   render() {
-    const {selectedTitle, deckList} = this.state;
+    const {ready, selectedTitle, deckList} = this.state;
 
     //console.log("Deck list: ", deckList);
+
+    if (ready === false){
+      return <AppLoading />
+    }
+
+    if(deckList.length === 0){
+      return (
+        <View style={styles.center}>
+          <Text style={{textAlign: "center"}}>There is no deck yet</Text>
+          <TextButton onPress={this.fetchDummyData} style={{margin:20}}>
+            Fetch Dummy Data
+          </TextButton>
+        </View>
+      )
+    }
 
     return (
       <SafeAreaView style={styles.container}>
@@ -79,11 +109,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
   },
+  center: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+  },
   item: {
     padding: 20,
     marginVertical: 12,
     marginHorizontal: 24,
-    borderRadius: 8
+    borderRadius: 8,
+    borderColor: black,
+    backgroundColor: colorPrimary,
   },
   title: {
     fontSize: 32,
