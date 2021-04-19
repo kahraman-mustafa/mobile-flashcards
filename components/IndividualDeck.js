@@ -11,8 +11,7 @@ class IndividualDeck extends Component {
     questions: []
   }
 
-  componentDidMount(){
-    
+  updateState = () => {
     if(this.props.route.params){
       const { deckTitle } = this.props.route.params;
       
@@ -20,13 +19,32 @@ class IndividualDeck extends Component {
 
       getDeck(deckTitle)
         .then((deck) => {
-          console.log("deck fetched: ", deck)
+          //console.log("deck fetched: ", deck)
           this.setState(() => ({questions: deck.questions}));
         })
     } else {
       // Do nothing
     }
-    
+  }
+
+  componentDidMount(){
+    this.updateState();
+
+    this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+      // user has navigated to this screen
+      console.log("New Question got Focus");
+      this.updateState();
+    });
+
+    this._unsubscribeBlur = this.props.navigation.addListener("didBlur", () => {
+      // user has navigated away from this screen
+      console.log("New Question lost Focus");
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribeFocus();
+    this._unsubscribeBlur();
   }
 
   routeToNewQuestion = () => {

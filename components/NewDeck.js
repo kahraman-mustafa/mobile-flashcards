@@ -12,10 +12,30 @@ class NewDeck extends Component {
     titleExisted: false
   }
 
-  componentDidMount() {
+  updateState = () => {
     getDeckTitles().then((currentTitles) => {
       this.setState(() => ({currentTitles}))
     })
+  }
+
+  componentDidMount(){
+    this.updateState();
+
+    this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
+      // user has navigated to this screen
+      console.log("New Deck got Focus");
+      this.updateState();
+    });
+
+    this._unsubscribeBlur = this.props.navigation.addListener("didBlur", () => {
+      // user has navigated away from this screen
+      console.log("New Deck lost Focus");
+    });
+  }
+
+  componentWillUnmount() {
+    this._unsubscribeFocus();
+    this._unsubscribeBlur();
   }
 
   handleCreateDeck = () => {

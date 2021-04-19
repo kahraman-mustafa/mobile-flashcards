@@ -73,8 +73,8 @@ const dummyDeckData = {
   },
 };
 
-export function getDummyDeckData(){
-  return dummyDeckData;
+export function setDummyDeckData(){
+  return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(dummyDeckData));
 }
 
 export function getDailyQuizState(){
@@ -98,9 +98,13 @@ export function getDeck(title){
   return AsyncStorage.getItem(DECKS_STORAGE_KEY)
     .then((results) => {
       const data = JSON.parse(results);
-      console.log("In api.js, returning deck: ", data);
+      //console.log("In api.js, returning deck: ", data);
       return data[title];
     })
+}
+
+export function clearDatabase(){
+  return AsyncStorage.clear();
 }
 
 export function getDecks(){
@@ -108,10 +112,10 @@ export function getDecks(){
     .then((results) => {
       // if there are no saved deck data yet, returns empty array
       if(results){
-        console.log("In api.js, returning results: ", JSON.parse(results));
+        //console.log("In api.js, returning results: ", JSON.parse(results));
         return JSON.parse(results);
       } else {
-        console.log("In api.js, returning empty: ", []);
+        //console.log("In api.js, returning empty: ", []);
         return [];
       }
     })

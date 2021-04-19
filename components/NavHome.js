@@ -46,7 +46,7 @@ const RouteConfigs = {
       ),
       title: 'New Deck'
     }
-  }
+  },
 }
 
 const TabNavigatorConfig = {
