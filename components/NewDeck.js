@@ -24,6 +24,7 @@ class NewDeck extends Component {
     this._unsubscribeFocus = this.props.navigation.addListener('focus', () => {
       // user has navigated to this screen
       console.log("New Deck got Focus");
+      this.setState(() => ({inputTitle: ""}))
       this.updateState();
     });
 

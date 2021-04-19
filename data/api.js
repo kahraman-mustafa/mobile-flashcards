@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const DECKS_STORAGE_KEY = "MobileFlascards:decks";
-const DAILY_QUIZ_STATE_STORAGE_KEY = "MobileFlascards:quizState";
 
 const dummyDeckData = {
   "Deck1": {
@@ -75,23 +74,6 @@ const dummyDeckData = {
 
 export function setDummyDeckData(){
   return AsyncStorage.setItem(DECKS_STORAGE_KEY, JSON.stringify(dummyDeckData));
-}
-
-export function getDailyQuizState(){
-  return AsyncStorage.getItem(DAILY_QUIZ_STATE_STORAGE_KEY)
-    .then((results) => {
-      if(results){
-        return JSON.parse(results).isDone;
-      } else {
-        return false;
-      }
-    })
-}
-
-export function setDailyQuizState(isDone){
-  return (
-    AsyncStorage.setItem(DAILY_QUIZ_STATE_STORAGE_KEY, JSON.stringify({isDone: isDone}))
-  )
 }
 
 export function getDeck(title){

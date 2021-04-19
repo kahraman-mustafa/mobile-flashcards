@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, SafeAreaView, Animated } from 'react-native';
 import TextButton from "./TextButton";
 import {getDeck} from "../data/api";
+import {clearLocalNotification, setLocalNotification} from "../utils/helpers";
 import { black, green, paleRed, colorActive, colorAccent, white, red, gray, colorPrimary } from '../assets/colors';
 
 class Quiz extends Component {
@@ -155,7 +156,9 @@ class Quiz extends Component {
         </View>
       )
     } else {
-      // No question left, quiz ended, show final screen
+      // No question left, quiz ended, show final screen, clear notifications
+      // Clear local notification
+      clearLocalNotification().then(setLocalNotification);
       return (
         <View style={styles.container}>
           <View style={[styles.container, {flex: 0.6}]}>
@@ -163,7 +166,7 @@ class Quiz extends Component {
             <Text style={styles.text}>Total Questions: {totalCards}</Text>
             <Text style={styles.text}>Correct Answers: {numCorrect}</Text>
             <Text style={styles.text}>Incorrect Answers: {numIncorrect}</Text>
-            <Text style={[styles.title, {fontSize: 24}]}>Your Answered %{Math.round(numCorrect/totalCards*100)} Correctly</Text>
+            <Text style={[styles.title, {fontSize: 24}]}>You Answered %{Math.round(numCorrect/totalCards*100)} Correctly</Text>
           </View>
           <View style={[styles.container, {flex: 0.4, alignItems: "center"}]}>
             <TouchableOpacity onPress={this.routeToResetQuiz} style={styles.button}>

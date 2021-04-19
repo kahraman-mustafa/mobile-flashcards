@@ -63,27 +63,27 @@ class NewQuestion extends Component {
     const {inputQuestion, inputAnswer, deckTitle} = this.state;
 
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <SafeAreaView behavior="padding" style={styles.container}>
         <Text style={{textAlign: "center", marginVertical: 16}}>
           Add Card to {deckTitle}
         </Text>
-        <SafeAreaView style={{flex: 0.6, justifyContent: "center"}}>
-          <SafeAreaView style={styles.inputContainer}>
+        <SafeAreaView style={{flex: 0.6, justifyContent: "space-evenly"}}>
+          <KeyboardAvoidingView behavior="padding" style={styles.inputContainer}>
             <TextInput 
               value={inputQuestion}
               style={styles.input}
               onChangeText={this.handleInputQuestionChange}
               placeholder="Enter Question"
             />
-          </SafeAreaView>
-          <SafeAreaView style={styles.inputContainer}>
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView behavior="padding" style={styles.inputContainer}>
             <TextInput 
               value={inputAnswer}
               style={styles.input}
               onChangeText={this.handleInputAnswerChange}
               placeholder="Enter Answer"
             />
-          </SafeAreaView>
+          </KeyboardAvoidingView>
         </SafeAreaView>
           
         <View style={styles.buttonContainer}>
@@ -94,7 +94,7 @@ class NewQuestion extends Component {
             <Text style={styles.buttonText}>Add Card to Deck</Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
+      </SafeAreaView>
     )
   }
 }
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   inputContainer: {
-    flex: 0.4,
+    flex: 0.3,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "stretch",
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     textAlign: "center",
-    height: 100,
+    height: 80,
     marginBottom: 12,
     padding: 8,
     borderColor: gray,
@@ -124,11 +124,11 @@ const styles = StyleSheet.create({
     fontSize: 24
   },
   buttonContainer: {
-    flex: 0.4,
+    flex: 0.3,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "flex-start",
-    marginTop: 12
+    marginTop: 4
   },
   warning: {
     textAlign: "center",
