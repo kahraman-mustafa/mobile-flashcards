@@ -1,0 +1,14 @@
+export const purple = '#292477'
+export const gray = '#757575'
+export const white = '#fff'
+export const black = '#000'
+export const red = '#b71845'
+export const orange = '#f26f28'
+export const blue = '#4e4cb8'
+export const lightPurp = '#7c53c3'
+export const pink = '#b93fb3'
+export const colorPrimary = "#f9c2ff"
+export const colorActive = "#6e3b6e"
+export const colorText = '#000'
+export const colorActiveText = "#fff"
+export const colorAccent = "#3B6E3B"
